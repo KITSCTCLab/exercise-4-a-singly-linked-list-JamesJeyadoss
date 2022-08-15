@@ -13,10 +13,35 @@ class Node:
         self.next = next
 
 
+from typing import Optional
+
+
+class Node:
+    """
+    This class describes Node objects to act as elements of the LinkedList
+    Attributes:
+        -> data - stored associated data
+        -> next - link to next node
+    """
+
+    def __init__(self, data=None, next=None):
+        """
+        Initialises the Node with given attributes
+        """
+        self.data = data
+        self.next = next
+
+
 class LinkedList:
     """
-    Provide necessary documentation
+    This class implements LinkedList using Node objects
+    Methods:
+        -> insert_at_end - inserts node with data at the end of the list
+        -> status - displays all elements of the lisT
+    Attributes
+        -> self.head - contains first node of LinkedList, None if list empty
     """
+
     def __init__(self):
         """
         Initialize the head
@@ -28,52 +53,62 @@ class LinkedList:
         Insert node at end of the list
         :param data: integer data that will be used to create a node
         """
-        new = Node(data)
-        if self.head == None:
+        new = Node(data, None)
+        current = self.head
+        if current is None:
             self.head = new
         else:
-            curr = self.head
-            while curr.next != None:
-                curr = curr.next
-            curr.next = new
-          
+            while current.next is not None:
+                current = current.next
+            current.next = new
 
     def status(self):
         """
         It prints all the elements of list.
         """
-        curr = self.head
-        while curr != None and curr.next != None:
-            print(curr.data, end = " ")
+        elements = []
+        current = self.head
+        while current:
+            elements.append(current.data)
+            current = current.next
+        print(elements)
 
 
-def get_num(l: LinkedList):
-    num = 0
-    curr = l.head
-    while curr != None and curr.next != None:
-        num = num * 10 + curr.data
-        curr = curr.next
-    return int(str(num)[::-1])
-            
 class Solution:
     """
-    Provide necessary documentation
+    Class implementing functions to add numbers in a LinkedListT
+    
     """
-    def addTwoNumbers(self, first_list: Optional[LinkedList], second_list: Optional[LinkedList]) -> Optional[LinkedList]:
+
+    def addTwoNumbers(self, first_list: Optional[LinkedList], second_list: Optional[LinkedList]) -> Optional[
+        LinkedList]:
         """
         :param first_list: Linkedlist with non-negative integers
         :param second_list: Linkedlist with non-negative integers
         :return: returns the sum as a linked list
         """
-        result = get_num(first_list) + get_num(second_list)
+        result = self.get_num(first_list) + self.get_num(second_list)
         sum_list = LinkedList()
-        for digit in map(int, str(result)[::-1]):
+        for digit in list(map(int, str(result)[::-1])):
             sum_list.insert_at_end(digit)
         return sum_list
-        
-        
 
-# Do not edit the following code      
+    def get_num(self, l: Optional[LinkedList]) -> int:
+        """
+        :param l: LinkedList with non-negative integers
+        :return: returns digits of the list as a single integer
+        """
+        curr = l.head
+        if curr is None:
+            return 0
+        num = ""
+        while curr is not None:
+            num = str(curr.data) + num
+            curr = curr.next
+        return int(num)
+
+
+# Do not edit the following code
 # Create an instance for LinkedList
 first_list = LinkedList()
 # Create an another instance for LinkedListT
